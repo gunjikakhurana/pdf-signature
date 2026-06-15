@@ -47,50 +47,37 @@
 </script>
 
 <div class="dashboard">
-
   <div class="dash-header">
     <div>
-     <h2>Documents</h2>
-    <p class="sub">Manage and track all your signed documents</p>
+      <h2>Documents</h2>
+      <p class="sub">Manage and track all your signed documents</p>
     </div>
     <span class="total-badge">{filtered.length} total</span>
   </div>
 
   <div class="stats">
     <div class="stat-card">
-      <div class="stat-left">
-        <p class="stat-label">Total Documents</p>
-        <p class="stat-value">{totalDocs}</p>
-      </div>
+      <p class="stat-label">Total Documents</p>
+      <p class="stat-value">{totalDocs}</p>
     </div>
     <div class="stat-card">
-      <div class="stat-left">
-        <p class="stat-label">Signed</p>
-        <p class="stat-value green">{signedDocs}</p>
-      </div>
+      <p class="stat-label">Signed</p>
+      <p class="stat-value green">{signedDocs}</p>
     </div>
     <div class="stat-card">
-      <div class="stat-left">
-        <p class="stat-label">Pending</p>
-        <p class="stat-value amber">{pendingDocs}</p>
-      </div>
+      <p class="stat-label">Pending</p>
+      <p class="stat-value amber">{pendingDocs}</p>
     </div>
     <div class="stat-card">
-      <div class="stat-left">
-        <p class="stat-label">Total Signatures</p>
-        <p class="stat-value purple">{totalSignatures}</p>
-      </div>
+      <p class="stat-label">Total Signatures</p>
+      <p class="stat-value purple">{totalSignatures}</p>
     </div>
   </div>
 
   <div class="controls">
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input
-        type="text"
-        placeholder="Search by filename..."
-        bind:value={search}
-      />
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search by filename..." bind:value={search} />
     </div>
     <div class="filter-tabs">
       <button class:active={statusFilter === 'all'} on:click={() => statusFilter = 'all'}>All</button>
@@ -106,7 +93,7 @@
     </div>
   {:else if filtered.length === 0}
     <div class="empty-state">
-    <p class="empty-title">No documents found</p>
+      <p class="empty-title">No documents found</p>
       <p class="empty-sub">Upload a PDF below to get started</p>
     </div>
   {:else}
@@ -124,9 +111,7 @@
         <tbody>
           {#each filtered as doc}
             <tr>
-              <td class="filename">
-                {doc.filename}
-              </td>
+              <td class="filename">{doc.filename}</td>
               <td>
                 <span class="badge {doc.status}">
                   {doc.status === 'signed' ? 'Signed' : 'Pending'}
@@ -137,9 +122,9 @@
                 <span class="sig-count">{doc.signatures.length}</span>
               </td>
               <td>
-              <button class="delete-btn" on:click={() => deleteDocument(doc.id)} title="Delete">
-              Delete
-             </button>
+                <button class="delete-btn" on:click={() => deleteDocument(doc.id)}>
+                  Delete
+                </button>
               </td>
             </tr>
           {/each}
@@ -147,7 +132,6 @@
       </table>
     </div>
   {/if}
-
 </div>
 
 <style>
@@ -199,25 +183,22 @@
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     transition: box-shadow 0.2s;
   }
 
-  .stat-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  }
+  .stat-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
 
   .stat-label {
     font-size: 12px;
     color: #94a3b8;
-    margin: 0 0 6px;
+    margin: 0 0 8px;
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   .stat-value {
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 800;
     color: #0f172a;
     margin: 0;
@@ -227,22 +208,6 @@
   .stat-value.green { color: #16a34a; }
   .stat-value.amber { color: #d97706; }
   .stat-value.purple { color: #7c3aed; }
-
-  .stat-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    background: #f1f5f9;
-    flex-shrink: 0;
-  }
-
-  .stat-icon.green-bg { background: #dcfce7; }
-  .stat-icon.amber-bg { background: #fef9c3; }
-  .stat-icon.purple-bg { background: #ede9fe; }
 
   .controls {
     display: flex;
@@ -263,7 +228,7 @@
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 13px;
+    color: #94a3b8;
   }
 
   .search-wrap input {
@@ -316,13 +281,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
 
-  .empty-state {
-    text-align: center;
-    padding: 48px 20px;
-    color: #94a3b8;
-  }
-
-  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-state { text-align: center; padding: 48px 20px; color: #94a3b8; }
   .empty-title { font-size: 16px; font-weight: 600; color: #64748b; margin: 0 0 6px; }
   .empty-sub { font-size: 13px; color: #94a3b8; margin: 0; }
 
@@ -339,9 +298,7 @@
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .table-wrap { overflow-x: auto; }
-
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
-
   thead tr { border-bottom: 2px solid #f1f5f9; }
 
   th {
@@ -354,29 +311,13 @@
     letter-spacing: 0.06em;
   }
 
-  tbody tr {
-    border-bottom: 1px solid #f8fafc;
-    transition: background 0.1s;
-  }
-
+  tbody tr { border-bottom: 1px solid #f8fafc; transition: background 0.1s; }
   tbody tr:hover { background: #f8fafc; }
   tbody tr:last-child { border-bottom: none; }
 
-  td {
-    padding: 14px 16px;
-    color: #334155;
-    vertical-align: middle;
-  }
+  td { padding: 14px 16px; color: #334155; vertical-align: middle; }
 
-  .filename {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 500;
-    color: #0f172a;
-  }
-
-  .file-icon { font-size: 16px; }
+  .filename { font-weight: 500; color: #0f172a; }
   .date { color: #94a3b8; font-size: 13px; }
 
   .sig-count {
@@ -404,10 +345,11 @@
     background: #fef2f2;
     border: 1px solid #fecaca;
     color: #ef4444;
-    padding: 7px 10px;
+    padding: 6px 14px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: 500;
     transition: all 0.15s;
   }
 
