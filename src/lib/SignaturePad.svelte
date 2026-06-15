@@ -4,8 +4,7 @@
 
   let canvas
   let isDrawing = false
-  let lastX = 0
-  let lastY = 0
+  let points = []
   let mode = 'draw'
   let typedName = ''
   let selectedFont = 'Dancing Script'
@@ -28,7 +27,6 @@
   function initCanvas() {
     const ctx = canvas.getContext('2d')
     ctx.strokeStyle = '#0f172a'
-    ctx.lineWidth = 2.5
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
   }
@@ -49,36 +47,103 @@
     }
   }
 
+  function getStrokeWidth(p1, p2) {
+    // Thicker when moving slow, thinner when moving fast — simulates pen pressure
+    const dist = Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2)
+    const speed = dist // higher = faster
+    const minWidth = 1.2
+    const maxWidth = 3.5
+    return Math.max(minWidth, maxWidth - speed * 0.08)
+  }
+
+  function drawSmoothCurve() {
+    if (points.length < 3) return
+    const ctx = canvas.getContext('2d')
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    // Re-render existing strokes from scratch using stored strokes
+    renderStrokes()
+  }
+
+  let strokes = [] // array of point arrays
+  let currentStroke = []
+
   function startDrawing(e) {
     if (mode !== 'draw') return
     e.preventDefault()
     isDrawing = true
+    currentStroke = []
     const pos = getPos(e)
-    lastX = pos.x
-    lastY = pos.y
+    currentStroke.push(pos)
   }
 
   function draw(e) {
     if (!isDrawing || mode !== 'draw') return
     e.preventDefault()
-    const ctx = canvas.getContext('2d')
     const pos = getPos(e)
-    ctx.beginPath()
-    ctx.moveTo(lastX, lastY)
-    ctx.lineTo(pos.x, pos.y)
-    ctx.stroke()
-    lastX = pos.x
-    lastY = pos.y
+    currentStroke.push(pos)
     hasContent = true
+
+    // Live render
+    const ctx = canvas.getContext('2d')
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    renderAllStrokes([...strokes, currentStroke])
   }
 
-  function stopDrawing() { isDrawing = false }
+  function stopDrawing() {
+    if (!isDrawing) return
+    isDrawing = false
+    if (currentStroke.length > 1) {
+      strokes.push([...currentStroke])
+    }
+    currentStroke = []
+  }
+
+  function renderAllStrokes(allStrokes) {
+    const ctx = canvas.getContext('2d')
+    ctx.strokeStyle = '#0f172a'
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
+
+    for (const stroke of allStrokes) {
+      if (stroke.length < 2) continue
+      ctx.beginPath()
+      ctx.moveTo(stroke[0].x, stroke[0].y)
+
+      for (let i = 1; i < stroke.length - 1; i++) {
+        const p0 = stroke[i - 1]
+        const p1 = stroke[i]
+        const p2 = stroke[i + 1]
+        // Midpoints for smooth quadratic curves
+        const midX1 = (p0.x + p1.x) / 2
+        const midY1 = (p0.y + p1.y) / 2
+        const midX2 = (p1.x + p2.x) / 2
+        const midY2 = (p1.y + p2.y) / 2
+
+        ctx.lineWidth = getStrokeWidth(p0, p1)
+        ctx.quadraticCurveTo(p1.x, p1.y, midX2, midY2)
+      }
+
+      // Draw last segment
+      const last = stroke[stroke.length - 1]
+      const prev = stroke[stroke.length - 2]
+      ctx.lineWidth = getStrokeWidth(prev, last)
+      ctx.lineTo(last.x, last.y)
+      ctx.stroke()
+    }
+  }
+
+  function renderStrokes() {
+    renderAllStrokes(strokes)
+  }
 
   function clearSignature() {
     const ctx = canvas.getContext('2d')
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     typedName = ''
     hasContent = false
+    strokes = []
+    currentStroke = []
   }
 
   function renderTyped() {
