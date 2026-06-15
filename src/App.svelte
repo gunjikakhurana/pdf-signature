@@ -37,7 +37,7 @@
     await supabase.storage.from('pdfs').upload(filePath, file, { contentType: 'application/pdf' })
     const { data, error } = await supabase
       .from('documents')
-      .insert({ filename, status: 'pending', storage_path: filePath })
+      .insert({ filename, status: 'pending', storage_path: filePath, user_id: user.id })
       .select()
     if (data) documentId = data[0].id
     if (error) console.error('Error saving document:', error)
