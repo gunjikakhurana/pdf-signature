@@ -50,8 +50,8 @@
 
   <div class="dash-header">
     <div>
-      <h2>Documents</h2>
-      <p class="sub">Manage and track all your signed documents</p>
+     <h2>Documents</h2>
+    <p class="sub">Manage and track all your signed documents</p>
     </div>
     <span class="total-badge">{filtered.length} total</span>
   </div>
@@ -62,28 +62,24 @@
         <p class="stat-label">Total Documents</p>
         <p class="stat-value">{totalDocs}</p>
       </div>
-      <div class="stat-icon default">📁</div>
     </div>
     <div class="stat-card">
       <div class="stat-left">
         <p class="stat-label">Signed</p>
         <p class="stat-value green">{signedDocs}</p>
       </div>
-      <div class="stat-icon green-bg">✅</div>
     </div>
     <div class="stat-card">
       <div class="stat-left">
         <p class="stat-label">Pending</p>
         <p class="stat-value amber">{pendingDocs}</p>
       </div>
-      <div class="stat-icon amber-bg">⏳</div>
     </div>
     <div class="stat-card">
       <div class="stat-left">
         <p class="stat-label">Total Signatures</p>
         <p class="stat-value purple">{totalSignatures}</p>
       </div>
-      <div class="stat-icon purple-bg">✍️</div>
     </div>
   </div>
 
@@ -98,8 +94,8 @@
     </div>
     <div class="filter-tabs">
       <button class:active={statusFilter === 'all'} on:click={() => statusFilter = 'all'}>All</button>
-      <button class:active={statusFilter === 'signed'} on:click={() => statusFilter = 'signed'}>✓ Signed</button>
-      <button class:active={statusFilter === 'pending'} on:click={() => statusFilter = 'pending'}>⏳ Pending</button>
+      <button class:active={statusFilter === 'signed'} on:click={() => statusFilter = 'signed'}>Signed</button>
+      <button class:active={statusFilter === 'pending'} on:click={() => statusFilter = 'pending'}>Pending</button>
     </div>
   </div>
 
@@ -110,8 +106,7 @@
     </div>
   {:else if filtered.length === 0}
     <div class="empty-state">
-      <p class="empty-icon">📭</p>
-      <p class="empty-title">No documents found</p>
+    <p class="empty-title">No documents found</p>
       <p class="empty-sub">Upload a PDF below to get started</p>
     </div>
   {:else}
@@ -130,12 +125,11 @@
           {#each filtered as doc}
             <tr>
               <td class="filename">
-                <span class="file-icon">📄</span>
                 {doc.filename}
               </td>
               <td>
                 <span class="badge {doc.status}">
-                  {doc.status === 'signed' ? '✓ Signed' : '⏳ Pending'}
+                  {doc.status === 'signed' ? 'Signed' : 'Pending'}
                 </span>
               </td>
               <td class="date">{formatDate(doc.uploaded_at)}</td>
@@ -143,9 +137,9 @@
                 <span class="sig-count">{doc.signatures.length}</span>
               </td>
               <td>
-                <button class="delete-btn" on:click={() => deleteDocument(doc.id)} title="Delete">
-                  🗑
-                </button>
+              <button class="delete-btn" on:click={() => deleteDocument(doc.id)} title="Delete">
+              Delete
+             </button>
               </td>
             </tr>
           {/each}

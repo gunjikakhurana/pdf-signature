@@ -85,10 +85,10 @@
 <div class="pad">
   <div class="mode-tabs">
     <button class:active={mode === 'draw'} on:click={() => { mode = 'draw'; clearSignature() }}>
-      ✏️ Draw
+      Draw
     </button>
     <button class:active={mode === 'type'} on:click={() => { mode = 'type'; clearSignature() }}>
-      🔤 Type
+      Type
     </button>
   </div>
 
@@ -125,8 +125,8 @@
   ></canvas>
 
   <div class="buttons">
-    <button class="clear" on:click={clearSignature}>🗑 Clear</button>
-    <button class="save" on:click={saveSignature}>✅ Use Signature</button>
+   <button class="clear" on:click={clearSignature}>Clear</button>
+    <button class="save" on:click={saveSignature}>Use Signature</button>
   </div>
 </div>
 
