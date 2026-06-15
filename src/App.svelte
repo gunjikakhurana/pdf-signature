@@ -118,7 +118,7 @@
     {:else if !pdfUrl}
       <div class="hero">
         <div class="hero-content">
-          <div class="hero-badge">⚡ Professional E-Signature Platform</div>
+          <div class="hero-badge">Professional E-Signature Platform</div>
           <h1>Sign Documents <span class="accent">Faster</span></h1>
           <p>Upload PDFs, collect signatures, send email requests, track status and manage documents from a single dashboard.</p>
           <div class="hero-features">
@@ -136,8 +136,8 @@
             </div>
           </div>
           <div class="hero-actions">
-            <label class="btn-primary">
-              📄 Upload Document
+           <label class="btn-primary">
+              Upload Document
               <input type="file" accept=".pdf" style="display:none" on:change={handleFileInput} />
             </label>
           </div>
@@ -178,22 +178,22 @@
 
     {:else}
       {#if saving}
-        <div class="toast">💾 Saving signature...</div>
+        <div class="toast">Saving signature...</div>
       {/if}
       {#if saved}
-        <div class="toast success">✅ Signature saved!</div>
+        <div class="toast success">Signature saved!</div>
       {/if}
 
       <div class="email-box">
         <div class="email-box-header">
-          <span class="email-box-icon">📧</span>
+          <div class="email-box-icon">✉</div>
           <div>
             <h3>Request signers</h3>
             <p>Send signing requests in order — each person is notified after the previous signs</p>
           </div>
         </div>
         {#if emailSent}
-          <div class="sent">✅ Signing request sent! Signer 1 has been notified.</div>
+          <div class="sent">Signing request sent! Signer 1 has been notified.</div>
         {:else}
           <div class="signers-list">
             {#each signers as signer, i}
@@ -204,7 +204,7 @@
             {/each}
           </div>
           <button class="send-btn" on:click={sendSigningRequest} disabled={sendingEmail}>
-            {sendingEmail ? 'Sending...' : '📨 Send Signing Requests'}
+            {sendingEmail ? 'Sending...' : 'Send Signing Requests'}
           </button>
         {/if}
       </div>
