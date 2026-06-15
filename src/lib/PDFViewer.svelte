@@ -173,29 +173,30 @@
     <div class="divider"></div>
 
     <span class="tool-label">Add field:</span>
+    
     <button
       class="tool-btn {selectedTool === 'name' ? 'active' : ''}"
       on:click={() => selectedTool = selectedTool === 'name' ? null : 'name'}>
-      👤 Name
+      Name
     </button>
     <button
       class="tool-btn {selectedTool === 'date' ? 'active' : ''}"
       on:click={() => selectedTool = selectedTool === 'date' ? null : 'date'}>
-      📅 Date
+      Date
     </button>
     <button
       class="tool-btn {selectedTool === 'text' ? 'active' : ''}"
       on:click={() => selectedTool = selectedTool === 'text' ? null : 'text'}>
-      📝 Text
+      Text
     </button>
 
     {#if signatureData}
-      <button class="download" on:click={downloadSigned}>⬇️ Download Signed PDF</button>
+      <button class="download" on:click={downloadSigned}>Download Signed PDF</button>
     {/if}
   </div>
 
   {#if selectedTool}
-    <div class="hint">👆 Click anywhere on the PDF to place the {selectedTool} field</div>
+    <div class="hint">Click anywhere on the PDF to place the {selectedTool} field</div>
   {/if}
 
   <div
